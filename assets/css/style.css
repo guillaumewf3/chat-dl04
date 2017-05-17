@@ -1,0 +1,22 @@
+body {
+    background-color: lightcoral;
+}
+
+#logo {
+	width: 48px;
+	float: left;
+	margin-top: 17px;
+}
+
+#messages-list {
+	min-height: 300px;
+	border: 1px solid #000;
+	padding: 10px;
+	overflow-y: scroll;
+	background-color: #fff;
+	margin-bottom: 5px;
+}
+
+#message-input {
+	width: 70%;
+}

@@ -1,0 +1,1 @@
+console.log("dans la console du navigateur depuis chat.js")

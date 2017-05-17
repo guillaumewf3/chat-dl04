@@ -1,0 +1,21 @@
+{% extends './layout.html' %}
+
+{% block main %}
+    <h1>Accueil !</h1>
+
+    <form method="POST" action="/chat/">
+        <div class="form-group">
+            <label for="username">Pseudo</label>
+            <input type="text" id="username" name="username"
+                   class="form-control">
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-success" type="submit">Chatons !</button>
+        </div>
+    </form>
+
+
+{% endblock %}
+
+{% block title %}Bienvenue sur le chat !{% endblock %}
