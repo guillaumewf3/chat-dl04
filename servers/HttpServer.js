@@ -47,10 +47,6 @@ function sendResponse(template, response, statusCode, data) {
     //on écrit des entêtes : le code de statut, plus un objet d'entêtes
     response.writeHead(statusCode, {'Content-Type' : 'text/html'})
 
-    data = {
-        username: "yo",
-        currentYear: 2017
-    }
     let html = nunjucks.render('./templates/'+template, data)
     response.write(html)
     response.end()
@@ -107,7 +103,14 @@ let server = http.createServer(function(request, response){
 
             request.on('end', () => {
                 let data = querystring.parse(postData)
-                sendResponse('chat.html', response, 200, data)
+
+                /*
+                    querystring.parse utilise comme constucteur : Object.create(null),
+                    ce qui fait que notre data n'a aucune propriété ou méthode.
+                    Ça plante donc plus tard à cause de nunjucks qui appelle hasOwnProperty() sur notre objet
+                    On passe donc un bon vieux {} ci-dessous, qui lui possède la méthode hasOwnProperty
+                */
+                sendResponse('chat.html', response, 200, {username: data.username})
             })
         }
         //page à propos
