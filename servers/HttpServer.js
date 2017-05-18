@@ -1,11 +1,14 @@
+//modules du core
 const fs = require('fs') //module permettant de manipuler les fichiers
-const url = require('url') //pour nous aider à analyser les URLs
 const http = require('http') //importe le module permettant de créer le serveur
-const nunjucks = require('nunjucks') //notre moteur de template semblable à twig
+const querystring = require('querystring'); //permet d'analyser la requête POST
+const url = require('url') //pour nous aider à analyser les URLs
 const path = require('path') //pour nous aider à extraire l'extension des fichiers
 
-const querystring = require('querystring'); //permet d'analyser la requête POST
+//modules externes
+const nunjucks = require('nunjucks') //notre moteur de template semblable à twig
 
+//envoie les fichiers statiques (css, js, pdf, etc.)
 function sendAsset(pathname, extension, response) {
     //on déduit le type mime en fonction de l'extension
     let mimetype = null;
@@ -27,9 +30,17 @@ function sendAsset(pathname, extension, response) {
         response.end()
     }
     else {
-        response.writeHead(200, {'Content-Type' : mimetype})
 
         fs.readFile("." + pathname, (err, data) => {
+            //si on a une erreur, c'est que le fichier n'existe sans doute pas
+            if (err){
+                console.error(err)
+                response.writeHead(404, {'Content-Type' : mimetype})
+                response.end()
+                return
+            }
+
+            response.writeHead(200, {'Content-Type' : mimetype})
             response.write(data)
             response.end()
         })
@@ -47,9 +58,17 @@ function sendResponse(template, response, statusCode, data) {
     //on écrit des entêtes : le code de statut, plus un objet d'entêtes
     response.writeHead(statusCode, {'Content-Type' : 'text/html'})
 
-    let html = nunjucks.render('./templates/'+template, data)
-    response.write(html)
-    response.end()
+    try {
+        let html = nunjucks.render('./templates/' + template, data)
+        response.write(html)
+        response.end()
+    }
+    catch(err){
+        console.error(err)
+        sendResponse('404.html', response, 404)
+    }
+
+
 
     /*
      //SANS NUNJUCKS ON FAISAIT ÇA
@@ -129,32 +148,3 @@ server.listen(3000)
 
 
 module.exports = server
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
- console.log("hello world !")
-
- const yo = "pouf"
-
- for(let i=0; i<=100;i++){
- console.log(i)
- }
-
- if (true){
- let name = "Guillaume"
- console.log(name)
- }
-
- console.log(name)
- */
