@@ -7,12 +7,15 @@
     <p>Bonjour {{ username }} !</p>
 
     <div id="messages-list"></div>
+    <div id="users-list"></div>
 
     <form id="message-form" method="POST">
         <input type="text" name="message-input" id="message-input">
         <input type="text" name="username-input" id="username-input" value="{{ username }}">
         <button type="submit">OK</button>
     </form>
+
+    <button id="shake-btn">shake it</button>
 </div>
 {% endblock %}
 

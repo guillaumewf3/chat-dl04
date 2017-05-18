@@ -1,5 +1,5 @@
 body {
-    background-color: lightcoral;
+    background-color: lightcyan;
 }
 
 #logo {
@@ -9,7 +9,7 @@ body {
 }
 
 #messages-list {
-	min-height: 300px;
+	height: 300px;
 	border: 1px solid #000;
 	padding: 10px;
 	overflow-y: scroll;
@@ -19,4 +19,8 @@ body {
 
 #message-input {
 	width: 70%;
+}
+
+em {
+	font-weight: bold;
 }
